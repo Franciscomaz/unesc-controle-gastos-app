@@ -1,0 +1,9 @@
+.is-light-grey {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.display-center {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
