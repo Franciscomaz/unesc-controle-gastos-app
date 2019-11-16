@@ -8,7 +8,7 @@ const config = {
 const instance = axios.create(config);
 
 instance.interceptors.response.use(
-  success => Promise.resolve(success),
+  success => Promise.resolve(success.data),
   error => {
     if (error.response && error.response.data) {
       if (error.response.data.errors) {

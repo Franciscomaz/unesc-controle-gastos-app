@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-import UserLogin from './components/usuario/UserLogin';
+import App from './components/App';
 import 'antd/dist/antd.css';
 import './index.css';
 
 ReactDOM.render(
   <div className="App">
-    <UserLogin />
+    <App />
   </div>,
   document.getElementById('root')
 );

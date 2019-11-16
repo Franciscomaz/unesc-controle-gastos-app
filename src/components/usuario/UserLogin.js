@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { Form, Input, Icon, Button, Checkbox, Card } from 'antd';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import LoginService from './user.service';
+import UserService from './user.service';
 import notificator from '../../core/notificator';
+import { from } from 'rxjs';
 
 const LAST_LOGGED_USER_STORAGE_KEY = 'lastLoggedUser';
 
-function Login(props) {
+function UserLogin(props) {
   const { setFieldsValue, getFieldDecorator, validateFields } = props.form;
 
   useEffect(() => {
@@ -29,13 +31,13 @@ function Login(props) {
 
   const onSubmit = async () => {
     try {
-      const result = await validateFields();
+      const fields = await validateFields();
 
-      LoginService.login(result.username, result.password).then(response => {
+      UserService.login(fields.username, fields.password).then(response => {
         console.log(response);
 
-        if (result.rememberLogin) {
-          localStorage.setItem(LAST_LOGGED_USER_STORAGE_KEY, result.username);
+        if (fields.rememberLogin) {
+          localStorage.setItem(LAST_LOGGED_USER_STORAGE_KEY, fields.username);
         }
 
         notificator.success('Sucesso', 'Login realizado com sucesso');
@@ -47,7 +49,7 @@ function Login(props) {
 
   return (
     <div className="display-center">
-      <Card>
+      <Card style={{ marginTop: '10%' }}>
         <Form>
           <Form.Item>
             {getFieldDecorator('username', {
@@ -83,9 +85,9 @@ function Login(props) {
               style={{ width: '100%' }}
               onClick={onSubmit}
             >
-              Log in
+              Sign in
             </Button>
-            Or <a href="">register now!</a>
+            Or <Link to="/register">register now!</Link>
           </Form.Item>
         </Form>
       </Card>
@@ -93,8 +95,8 @@ function Login(props) {
   );
 }
 
-Login.propTypes = {
+UserLogin.propTypes = {
   form: PropTypes.object
 };
 
-export default Form.create({ name: 'user_login' })(Login);
+export default Form.create()(UserLogin);
