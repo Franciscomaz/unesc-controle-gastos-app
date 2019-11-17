@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Form, Input, Button, Icon } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import UserService from './user.service';
 import PropTypes from 'prop-types';
 import notificator from '../../core/notificator';
@@ -12,6 +12,8 @@ function UserRegistration(props) {
     setFieldsValue,
     validateFields
   } = props.form;
+
+  const history = useHistory();
 
   const onChangeName = event => {
     setFieldsValue({
@@ -51,6 +53,7 @@ function UserRegistration(props) {
       UserService.save(fields.name, fields.username, fields.password).then(
         response => {
           notificator.success('Sucesso', 'Usuário cadastrado com sucesso');
+          history.push('/login');
         }
       );
     } catch (error) {
@@ -60,12 +63,12 @@ function UserRegistration(props) {
 
   return (
     <div className="display-center">
-      <Card style={{ minWidth: '400px', marginTop: '10%' }}>
+      <Card className="user-registration">
         <Form hideRequiredMark>
           <Form.Item>
             {getFieldDecorator('name', {
               rules: [
-                { required: true, message: 'Informe seu nome' },
+                { required: true, message: 'Informe seu nome!' },
                 {
                   max: 60,
                   message: 'O nome deve possuir no máximo 60 caracteres'
@@ -82,7 +85,7 @@ function UserRegistration(props) {
           <Form.Item>
             {getFieldDecorator('username', {
               rules: [
-                { required: true, message: 'Informe seu usuário' },
+                { required: true, message: 'Informe seu usuário!' },
                 {
                   min: 4,
                   message: 'O usuário deve possuir pelo menos 4 caracteres'
@@ -103,7 +106,7 @@ function UserRegistration(props) {
           <Form.Item>
             {getFieldDecorator('password', {
               rules: [
-                { required: true, message: 'Informe sua senha' },
+                { required: true, message: 'Informe sua senha!' },
                 {
                   min: 4,
                   message: 'A senha deve possuir pelo menos 4 caracteres'
@@ -125,7 +128,7 @@ function UserRegistration(props) {
           <Form.Item hasFeedback>
             {getFieldDecorator('passwordConfirmation', {
               rules: [
-                { required: true, message: 'Confirme sua senha' },
+                { required: true, message: 'Confirme sua senha!' },
                 { validator: validatePasswordConfirmation }
               ]
             })(
@@ -139,7 +142,7 @@ function UserRegistration(props) {
           </Form.Item>
           <Form.Item>
             <Button
-              style={{ width: '100%' }}
+              className="w-100"
               type="primary"
               htmlType="submit"
               onClick={onSignIn}

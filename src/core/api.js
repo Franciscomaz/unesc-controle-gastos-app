@@ -1,8 +1,13 @@
+import { BEARER_TOKEN_STORAGE_KEY } from './constants/local-storage.constants';
+
 import axios from 'axios';
 import notificator from './notificator';
 
 const config = {
-  baseURL: 'http://localhost:3000/api/v1/'
+  baseURL: 'http://localhost:3000/api/v1/',
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem(BEARER_TOKEN_STORAGE_KEY)}`
+  }
 };
 
 const instance = axios.create(config);

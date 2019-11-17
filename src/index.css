@@ -3,8 +3,14 @@ body {
   height: 100%;
 }
 
+/* Colors */
 .is-light-grey {
   color: rgba(0, 0, 0, 0.25);
+}
+
+/* Utils */
+.w-100 {
+  width: 100%;
 }
 
 .display-center {
@@ -12,4 +18,14 @@ body {
   justify-content: center;
   align-content: center;
   height: 100%;
+}
+
+/* Components */
+.user-login {
+  margin-top: 8%;
+}
+
+.user-registration {
+  margin-top: 8%;
+  min-width: 400px;
 }
