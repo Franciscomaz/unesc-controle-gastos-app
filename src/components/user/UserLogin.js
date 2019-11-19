@@ -3,20 +3,38 @@ import {
   BEARER_TOKEN_STORAGE_KEY
 } from '../../core/constants/local-storage.constants';
 
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, Redirect, useHistory } from 'react-router-dom';
+
 import { Form, Input, Icon, Button, Checkbox, Card } from 'antd';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import UserService from './user.service';
+import AuthService from '../authentication/auth.service';
 import notificator from '../../core/notificator';
 
 function UserLogin(props) {
   const { setFieldsValue, getFieldDecorator, validateFields } = props.form;
 
+  const [redirectToDashboard, setIfShouldRedirectToDashboard] = useState(false);
+
+  const history = useHistory();
+
   useEffect(() => {
     setFieldsValue({
       username: localStorage.getItem(LAST_LOGGED_USER_STORAGE_KEY)
     });
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem(BEARER_TOKEN_STORAGE_KEY);
+    if (!token) {
+      return;
+    }
+
+    AuthService.authenticate(token).then(() =>
+      setIfShouldRedirectToDashboard(true)
+    );
   }, []);
 
   const onChangeUsername = event => {
@@ -42,12 +60,18 @@ function UserLogin(props) {
 
         localStorage.setItem(BEARER_TOKEN_STORAGE_KEY, response.data.token);
 
+        history.push('/dashboard');
+
         notificator.success('Sucesso', 'Login realizado com sucesso');
       });
     } catch (error) {
       console.error(error);
     }
   };
+
+  if (redirectToDashboard) {
+    return <Redirect to="/dashboard" />;
+  }
 
   return (
     <div className="display-center">

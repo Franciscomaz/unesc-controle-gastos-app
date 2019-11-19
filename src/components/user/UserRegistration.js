@@ -1,8 +1,10 @@
 import React from 'react';
-import { Card, Form, Input, Button, Icon } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
-import UserService from './user.service';
+
+import { Card, Form, Input, Button, Icon } from 'antd';
 import PropTypes from 'prop-types';
+
+import UserService from './user.service';
 import notificator from '../../core/notificator';
 
 function UserRegistration(props) {
