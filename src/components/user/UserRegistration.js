@@ -53,7 +53,7 @@ function UserRegistration(props) {
     try {
       const fields = await validateFields();
       UserService.save(fields.name, fields.username, fields.password).then(
-        response => {
+        () => {
           notificator.success('Sucesso', 'Usuário cadastrado com sucesso');
           history.push('/login');
         }

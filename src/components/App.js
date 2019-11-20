@@ -10,6 +10,7 @@ import UserRegistration from './user/UserRegistration';
 import PrivateRoute from './authentication/PrivateRoute';
 import Dashboard from './dashboard/Dashboard';
 import AccountPage from './account/AccountPage';
+import DefaultLayout from './layout/DefaultLayout';
 
 export default function App() {
   return (
@@ -19,10 +20,14 @@ export default function App() {
         <Route path="/login" component={UserLogin} />
         <Route path="/register" component={UserRegistration} />
         <PrivateRoute path="/dashboard">
-          <Dashboard />
+          <DefaultLayout>
+            <Dashboard />
+          </DefaultLayout>
         </PrivateRoute>
         <PrivateRoute path="/accounts">
-          <AccountPage />
+          <DefaultLayout>
+            <AccountPage />
+          </DefaultLayout>
         </PrivateRoute>
       </Switch>
     </Router>
