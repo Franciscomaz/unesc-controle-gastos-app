@@ -18,11 +18,11 @@ function AccountPage() {
     loadAccounts();
   }, []);
 
-  const loadAccounts = async name => {
+  const loadAccounts = async filter => {
     setIsLoading(true);
 
     try {
-      const response = await AccountService.findAll({ nome: name });
+      const response = await AccountService.findAll({ nome: filter });
       setAccounts(response.data);
     } catch {
       setAccounts([]);
