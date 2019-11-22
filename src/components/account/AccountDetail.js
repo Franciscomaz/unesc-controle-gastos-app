@@ -2,26 +2,29 @@ import React, { useEffect, useState } from 'react';
 
 import { Form, Input, Modal } from 'antd';
 
-import AccountService from './account.service';
-
 import PropTypes from 'prop-types';
 
-import notificator from '../../core/notificator';
-
 function AccountDetail(props) {
-  const { getFieldDecorator, getFieldValue, setFieldsValue } = props.form;
+  const {
+    getFieldDecorator,
+    getFieldError,
+    getFieldsError,
+    setFieldsValue,
+    isFieldTouched,
+    validateFields
+  } = props.form;
 
   const [savingAccount, setSavingAccount] = useState(false);
 
-  useEffect(() => {
-    if (!props.account) {
-      return;
-    }
+  const nameError = isFieldTouched('name') && getFieldError('name');
 
+  useEffect(() => {
     setFieldsValue({
-      name: props.account.name
+      name: props.account.nome
     });
-  }, []);
+
+    validateFields();
+  }, [props.account.nome]);
 
   const onChangeName = event => {
     setFieldsValue({
@@ -29,40 +32,49 @@ function AccountDetail(props) {
     });
   };
 
-  const save = () => {
-    const payload = { nome: getFieldValue('name') };
-
+  const save = async () => {
     setSavingAccount(true);
 
-    return AccountService.save(payload)
-      .then(() => {
-        notificator.success('Sucesso', 'Conta cadastrada com sucesso');
-        setSavingAccount(false);
-        closeModal();
-      })
-      .catch(() => setSavingAccount(false));
+    try {
+      const fields = await validateFields();
+
+      return props
+        .handleSave({ id: props.account.id, nome: fields.name })
+        .then(() => closeModal())
+        .finally(() => setSavingAccount(false));
+    } catch {
+      setSavingAccount(false);
+    }
   };
 
-  const closeModal = () => {
-    setFieldsValue({
-      name: ''
-    });
+  function hasErrors(fieldsError) {
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
+  }
 
-    props.handleModalVisibility(false);
+  const closeModal = () => {
+    props.handleClose();
   };
 
   return (
     <Modal
-      title={props.account ? 'Editar' : 'Cadastrar' + ' conta'}
+      title={(props.account.id ? 'Editar' : 'Cadastrar') + ' conta'}
       visible={props.isVisible}
       okText="Save"
+      okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
       onOk={save}
       onCancel={closeModal}
       confirmLoading={savingAccount}
+      destroyOnClose
     >
-      <Form>
-        <Form.Item label="Nome">
-          {getFieldDecorator('name')(
+      <Form hideRequiredMark>
+        <Form.Item
+          label="Nome"
+          validateStatus={nameError ? 'error' : ''}
+          help={nameError || ''}
+        >
+          {getFieldDecorator('name', {
+            rules: [{ required: true, message: 'Informe o nome da conta!' }]
+          })(
             <Input
               onChange={onChangeName}
               placeholder="Nome"
@@ -78,7 +90,8 @@ function AccountDetail(props) {
 AccountDetail.propTypes = {
   form: PropTypes.object,
   account: PropTypes.object,
-  handleModalVisibility: PropTypes.func,
+  handleSave: PropTypes.func,
+  handleClose: PropTypes.func,
   isVisible: PropTypes.bool
 };
 

@@ -1,15 +1,21 @@
-import api from '../../core/api';
+import ApiService from '../../core/network/api-service';
 
 const BASE_PATH = '/contas';
 
 export default {
+  findAll: queryParams => {
+    return ApiService.get(`${BASE_PATH}`, { params: queryParams });
+  },
   findById: id => {
-    return api.get(`${BASE_PATH}/${id}`);
+    return ApiService.get(`${BASE_PATH}/${id}`);
   },
   update: (id, payload) => {
-    return api.put(`${BASE_PATH}/${id}`, payload);
+    return ApiService.put(`${BASE_PATH}/${id}`, payload);
   },
   save: payload => {
-    return api.post(BASE_PATH, payload);
+    return ApiService.post(BASE_PATH, payload);
+  },
+  delete: id => {
+    return ApiService.delete(`${BASE_PATH}/${id}`);
   }
 };

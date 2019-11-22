@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 
 import UserService from './user.service';
 import AuthService from '../authentication/auth.service';
-import notificator from '../../core/notificator';
+import notificator from '../../core/feedback/notificator';
 
 function UserLogin(props) {
   const { setFieldsValue, getFieldDecorator, validateFields } = props.form;
@@ -32,8 +32,8 @@ function UserLogin(props) {
       return;
     }
 
-    AuthService.authenticate(token).then(() =>
-      setIfShouldRedirectToDashboard(true)
+    AuthService.authenticate(token).then(response =>
+      setIfShouldRedirectToDashboard(response.data)
     );
   }, []);
 
@@ -62,7 +62,7 @@ function UserLogin(props) {
 
         history.push('/dashboard');
 
-        notificator.success('Sucesso', 'Login realizado com sucesso');
+        notificator.success('Login realizado com sucesso');
       });
     } catch (error) {
       console.error(error);

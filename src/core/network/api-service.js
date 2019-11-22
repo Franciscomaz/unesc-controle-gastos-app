@@ -1,10 +1,10 @@
-import { BEARER_TOKEN_STORAGE_KEY } from './constants/local-storage.constants';
+import { BEARER_TOKEN_STORAGE_KEY } from '../constants/local-storage.constants';
 
 import axios from 'axios';
-import notificator from './notificator';
+import { message } from 'antd';
 
 const config = {
-  baseURL: 'http://localhost:3000/api/v1/',
+  baseURL: 'http://localhost:8080/api/v1/',
   headers: {
     Authorization: `Bearer ${localStorage.getItem(BEARER_TOKEN_STORAGE_KEY)}`
   }
@@ -28,11 +28,11 @@ instance.interceptors.response.use(
 );
 
 function handleMappedErrors(errors) {
-  errors.forEach(error => notificator.error(error.title, error.detail));
+  errors.forEach(error => message.error(error.detail));
 }
 
 function handleUnknownError() {
-  notificator.error('Erro desconhecido', 'Ocorreu um erro interno');
+  message.error('Ocorreu um erro interno');
 }
 
 export default instance;

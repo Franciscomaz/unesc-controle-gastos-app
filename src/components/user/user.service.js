@@ -1,4 +1,4 @@
-import Api from '../../core/api';
+import ApiService from '../../core/network/api-service';
 
 export default {
   save: (name, username, senha) => {
@@ -8,7 +8,7 @@ export default {
       senha: senha
     };
 
-    return Api.post('usuarios', payload);
+    return ApiService.post('usuarios', payload);
   },
   login: (username, senha) => {
     const payload = {
@@ -16,6 +16,6 @@ export default {
       senha: senha
     };
 
-    return Api.post('usuarios/login', payload);
+    return ApiService.post('usuarios/login', payload);
   }
 };

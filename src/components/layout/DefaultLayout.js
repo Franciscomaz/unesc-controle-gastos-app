@@ -1,25 +1,27 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 
 const { Header, Content, Footer } = Layout;
 
 function DefaultLayout({ children }) {
+  const location = useLocation();
+
   return (
     <Layout className="layout">
       <Header>
         <Menu
           mode="horizontal"
           theme="dark"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={[location.pathname]}
           style={{ lineHeight: '64px' }}
         >
-          <Menu.Item key="1">
+          <Menu.Item key={'/dashboard'}>
             <Link to="/dashboard">Dashboard</Link>
           </Menu.Item>
-          <Menu.Item key="2">
+          <Menu.Item key={'/accounts'}>
             <Link to="/accounts">Account</Link>
           </Menu.Item>
         </Menu>

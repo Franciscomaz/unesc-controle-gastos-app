@@ -1,7 +1,7 @@
-import api from '../../core/api';
+import ApiService from '../../core/network/api-service';
 
 export default {
   authenticate: token => {
-    return api.post('/authenticate', { token: token });
+    return ApiService.post('/authenticate', { token: token });
   }
 };

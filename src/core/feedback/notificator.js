@@ -1,9 +1,9 @@
 import { notification } from 'antd';
 
 export default {
-  success: (title, detail) => {
+  success: detail => {
     notification.success({
-      message: title,
+      message: 'Sucesso',
       description: detail
     });
   },

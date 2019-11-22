@@ -5,7 +5,7 @@ import { Card, Form, Input, Button, Icon } from 'antd';
 import PropTypes from 'prop-types';
 
 import UserService from './user.service';
-import notificator from '../../core/notificator';
+import notificator from '../../core/feedback/notificator';
 
 function UserRegistration(props) {
   const {
@@ -54,7 +54,7 @@ function UserRegistration(props) {
       const fields = await validateFields();
       UserService.save(fields.name, fields.username, fields.password).then(
         () => {
-          notificator.success('Sucesso', 'Usuário cadastrado com sucesso');
+          notificator.success('Usuário cadastrado com sucesso');
           history.push('/login');
         }
       );
