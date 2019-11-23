@@ -8,6 +8,10 @@ body {
   color: rgba(0, 0, 0, 0.25);
 }
 
+.is-white {
+  color: #fff;
+}
+
 .has-white {
   background-color: #fff;
 }
@@ -44,4 +48,20 @@ body {
 .user-registration {
   margin-top: 8%;
   min-width: 400px;
+}
+.sidebar-icon {
+  font-size: 16px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.sidebar-icon:hover {
+  color: #1890ff;
+}
+
+.sidebar-logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
 }

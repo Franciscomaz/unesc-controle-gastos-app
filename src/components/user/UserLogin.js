@@ -1,8 +1,3 @@
-import {
-  LAST_LOGGED_USER_STORAGE_KEY,
-  BEARER_TOKEN_STORAGE_KEY
-} from '../../core/constants/local-storage.constants';
-
 import React, { useState, useEffect } from 'react';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 
@@ -11,12 +6,19 @@ import PropTypes from 'prop-types';
 
 import UserService from './user.service';
 import AuthService from '../authentication/auth.service';
+import {
+  getToken,
+  storeToken
+} from '../../core/authentication/auth-storage.service';
+
 import notificator from '../../core/feedback/notificator';
+
+const LAST_LOGGED_USER_STORAGE_KEY = 'lastLoggedInUser';
 
 function UserLogin(props) {
   const { setFieldsValue, getFieldDecorator, validateFields } = props.form;
 
-  const [redirectToDashboard, setIfShouldRedirectToDashboard] = useState(false);
+  const [redirectToDashboard, setRedirectToDashboard] = useState(false);
 
   const history = useHistory();
 
@@ -27,13 +29,14 @@ function UserLogin(props) {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem(BEARER_TOKEN_STORAGE_KEY);
+    const token = getToken();
+
     if (!token) {
       return;
     }
 
     AuthService.authenticate(token).then(response =>
-      setIfShouldRedirectToDashboard(response.data)
+      setRedirectToDashboard(response.data)
     );
   }, []);
 
@@ -58,7 +61,7 @@ function UserLogin(props) {
           localStorage.setItem(LAST_LOGGED_USER_STORAGE_KEY, fields.username);
         }
 
-        localStorage.setItem(BEARER_TOKEN_STORAGE_KEY, response.data.token);
+        storeToken(response.data.token);
 
         history.push('/dashboard');
 

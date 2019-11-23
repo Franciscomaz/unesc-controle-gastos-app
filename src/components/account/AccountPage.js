@@ -62,8 +62,15 @@ function AccountPage() {
 
   return (
     <div className="p-2">
+      <AccountDetail
+        account={account}
+        isVisible={isAccountModalOpen}
+        handleSave={handleSave}
+        handleClose={handleClose}
+      />
+
       <Row className="mb-2" type="flex" justify="space-between">
-        <Col span={2}>
+        <Col>
           <Button
             type="primary"
             icon="plus"
@@ -71,16 +78,10 @@ function AccountPage() {
           >
             Account
           </Button>
-          <AccountDetail
-            account={account}
-            isVisible={isAccountModalOpen}
-            handleSave={handleSave}
-            handleClose={handleClose}
-          />
         </Col>
-        <Col xs={16} md={16} lg={10} xl={5}>
-          <Row>
-            <Col span={2}>
+        <Col>
+          <Row type="flex">
+            <Col style={{ paddingRight: 5 }}>
               <Button
                 shape="circle"
                 icon="reload"
@@ -88,9 +89,9 @@ function AccountPage() {
                 disabled={isLoading}
               />
             </Col>
-            <Col span={22}>
+            <Col>
               <Input.Search
-                placeholder="input search text"
+                placeholder="search"
                 onSearch={value => loadAccounts(value)}
               />
             </Col>

@@ -7,10 +7,10 @@ import {
 } from 'react-router-dom';
 import UserLogin from './user/UserLogin';
 import UserRegistration from './user/UserRegistration';
-import PrivateRoute from './authentication/PrivateRoute';
+import AuthenticatedRoute from './authentication/AuthenticatedRoute';
 import Dashboard from './dashboard/Dashboard';
 import AccountPage from './account/AccountPage';
-import DefaultLayout from './layout/DefaultLayout';
+import AppLayout from './layout/AppLayout';
 
 export default function App() {
   return (
@@ -19,16 +19,16 @@ export default function App() {
         <Redirect exact from="/" to="/dashboard" />
         <Route path="/login" component={UserLogin} />
         <Route path="/register" component={UserRegistration} />
-        <PrivateRoute path="/dashboard">
-          <DefaultLayout>
+        <AuthenticatedRoute path="/dashboard">
+          <AppLayout>
             <Dashboard />
-          </DefaultLayout>
-        </PrivateRoute>
-        <PrivateRoute path="/accounts">
-          <DefaultLayout>
+          </AppLayout>
+        </AuthenticatedRoute>
+        <AuthenticatedRoute path="/accounts">
+          <AppLayout>
             <AccountPage />
-          </DefaultLayout>
-        </PrivateRoute>
+          </AppLayout>
+        </AuthenticatedRoute>
       </Switch>
     </Router>
   );

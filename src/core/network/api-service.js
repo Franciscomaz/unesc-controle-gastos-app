@@ -1,18 +1,24 @@
-import { BEARER_TOKEN_STORAGE_KEY } from '../constants/local-storage.constants';
-
 import axios from 'axios';
 import { message } from 'antd';
+import { getToken } from '../authentication/auth-storage.service';
 
 const config = {
-  baseURL: 'http://localhost:8080/api/v1/',
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem(BEARER_TOKEN_STORAGE_KEY)}`
-  }
+  baseURL: 'http://localhost:8080/api/v1/'
 };
 
-const instance = axios.create(config);
+const api = axios.create(config);
 
-instance.interceptors.response.use(
+api.interceptors.request.use(config => {
+  const token = getToken();
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
+api.interceptors.response.use(
   success => Promise.resolve(success.data),
   error => {
     if (error.response && error.response.data) {
@@ -35,4 +41,4 @@ function handleUnknownError() {
   message.error('Ocorreu um erro interno');
 }
 
-export default instance;
+export default api;

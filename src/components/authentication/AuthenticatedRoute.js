@@ -1,35 +1,45 @@
-import { BEARER_TOKEN_STORAGE_KEY } from '../../core/constants/local-storage.constants';
-
 import React, { useState, useEffect } from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import AuthService from './auth.service';
-import PropTypes from 'prop-types';
+import { Route, Redirect, useLocation } from 'react-router-dom';
 
 import { message } from 'antd';
 
-function PrivateRoute({ children, ...props }) {
+import AuthService from './auth.service';
+import { getToken } from '../../core/authentication/auth-storage.service';
+
+import PropTypes from 'prop-types';
+
+function AuthenticatedRoute({ children, ...props }) {
   const [hasPermission, setHasPermission] = useState(null);
 
+  const location = useLocation();
+
   useEffect(() => {
-    const hasPermission = isUserLoggedIn();
+    verifyPermission();
+  }, [location.pathname]);
+
+  const verifyPermission = async () => {
+    const hasPermission = await isUserLoggedIn();
 
     if (!hasPermission) {
       notifyNoPermission();
     }
 
     setHasPermission(hasPermission);
-  }, []);
+  };
 
-  const isUserLoggedIn = () => {
-    const token = localStorage.getItem(BEARER_TOKEN_STORAGE_KEY);
+  const isUserLoggedIn = async () => {
+    const token = getToken();
 
     if (!token) {
       return false;
     }
 
-    return AuthService.authenticate(token)
-      .then(response => response.data)
-      .catch(() => false);
+    try {
+      const response = await AuthService.authenticate(token);
+      return response.data;
+    } catch {
+      return false;
+    }
   };
 
   const notifyNoPermission = () => {
@@ -54,8 +64,8 @@ function PrivateRoute({ children, ...props }) {
   );
 }
 
-PrivateRoute.propTypes = {
+AuthenticatedRoute.propTypes = {
   children: PropTypes.object
 };
 
-export default PrivateRoute;
+export default AuthenticatedRoute;
