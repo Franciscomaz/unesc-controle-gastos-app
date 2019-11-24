@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { getToken } from '../authentication/auth-storage.service';
 
 const config = {
-  baseURL: 'http://localhost:8080/api/v1/'
+  baseURL: process.env.REACT_APP_API_URL
 };
 
 const api = axios.create(config);

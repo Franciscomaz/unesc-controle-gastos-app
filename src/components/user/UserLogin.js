@@ -13,7 +13,7 @@ import {
 
 import notificator from '../../core/feedback/notificator';
 
-const LAST_LOGGED_USER_STORAGE_KEY = 'lastLoggedInUser';
+const LAST_LOGGED_USER_STORAGE_KEY = 'controleFinanceiro:lastLoggedInUser';
 
 function UserLogin(props) {
   const { setFieldsValue, getFieldDecorator, validateFields } = props.form;
