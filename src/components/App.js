@@ -9,8 +9,9 @@ import UserLogin from './user/UserLogin';
 import UserRegistration from './user/UserRegistration';
 import AuthenticatedRoute from './authentication/AuthenticatedRoute';
 import Dashboard from './dashboard/Dashboard';
-import AccountPage from './account/AccountPage';
 import AppLayout from './layout/AppLayout';
+import AccountPage from './account/AccountPage';
+import CategoryPage from './category/CategoryPage';
 
 export default function App() {
   return (
@@ -27,6 +28,11 @@ export default function App() {
         <AuthenticatedRoute path="/accounts">
           <AppLayout>
             <AccountPage />
+          </AppLayout>
+        </AuthenticatedRoute>
+        <AuthenticatedRoute path="/categories">
+          <AppLayout>
+            <CategoryPage />
           </AppLayout>
         </AuthenticatedRoute>
       </Switch>

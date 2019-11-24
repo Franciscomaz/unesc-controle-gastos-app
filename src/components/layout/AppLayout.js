@@ -28,7 +28,7 @@ function AppLayout({ children }) {
         <AppMenu />
       </Layout.Sider>
       <Layout>
-        <Header style={{ background: '#fff', padding: 0 }}>
+        <Header className="has-white" style={{ padding: 0 }}>
           <Row type="flex" justify="space-between">
             <Col>
               <Icon

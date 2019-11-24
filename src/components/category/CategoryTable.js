@@ -3,7 +3,7 @@ import React from 'react';
 import { Table, Divider, Popconfirm } from 'antd';
 import PropTypes from 'prop-types';
 
-function AccountTable(props) {
+function CategoryTable(props) {
   const columns = [
     {
       title: 'Nome',
@@ -13,13 +13,13 @@ function AccountTable(props) {
       title: 'Ação',
       key: 'action',
       width: '135px',
-      render: (text, account) => (
+      render: (text, category) => (
         <span>
-          <a onClick={() => props.handleEdit(account)}>Editar</a>
+          <a onClick={() => props.handleEdit(category)}>Editar</a>
           <Divider type="vertical" />
           <Popconfirm
             title="Tem certeza que deseja deletar?"
-            onConfirm={() => props.handleDelete(account.id)}
+            onConfirm={() => props.handleDelete(category.id)}
           >
             <a>Deletar</a>
           </Popconfirm>
@@ -31,7 +31,7 @@ function AccountTable(props) {
   return (
     <Table
       rowKey={record => record.id}
-      dataSource={props.accounts}
+      dataSource={props.categories}
       columns={columns}
       loading={props.loading}
       bordered
@@ -39,11 +39,11 @@ function AccountTable(props) {
   );
 }
 
-AccountTable.propTypes = {
-  accounts: PropTypes.array,
+CategoryTable.propTypes = {
+  categories: PropTypes.array,
   handleEdit: PropTypes.func,
   handleDelete: PropTypes.func,
   loading: PropTypes.bool
 };
 
-export default AccountTable;
+export default CategoryTable;
