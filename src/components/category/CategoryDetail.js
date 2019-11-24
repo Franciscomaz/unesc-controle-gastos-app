@@ -5,26 +5,15 @@ import { Form, Input, Modal } from 'antd';
 import PropTypes from 'prop-types';
 
 function CategoryDetail(props) {
-  const {
-    getFieldDecorator,
-    getFieldError,
-    getFieldsError,
-    setFieldsValue,
-    isFieldTouched,
-    validateFields
-  } = props.form;
+  const { getFieldDecorator, setFieldsValue, validateFields } = props.form;
 
   const [savingCategory, setSavingCategory] = useState(false);
-
-  const nameError = isFieldTouched('name') && getFieldError('name');
 
   useEffect(() => {
     setFieldsValue({
       name: props.category.nome
     });
-
-    validateFields();
-  }, [props.category.nome]);
+  }, [props.category]);
 
   const onChangeName = event => {
     setFieldsValue({
@@ -47,10 +36,6 @@ function CategoryDetail(props) {
     }
   };
 
-  function hasErrors(fieldsError) {
-    return Object.keys(fieldsError).some(field => fieldsError[field]);
-  }
-
   const closeModal = () => {
     props.handleClose();
   };
@@ -60,23 +45,19 @@ function CategoryDetail(props) {
       title={(props.category.id ? 'Editar' : 'Cadastrar') + ' categoria'}
       visible={props.isVisible}
       okText="Save"
-      okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
       onOk={save}
       onCancel={closeModal}
       confirmLoading={savingCategory}
       destroyOnClose
     >
       <Form hideRequiredMark>
-        <Form.Item
-          label="Nome"
-          validateStatus={nameError ? 'error' : ''}
-          help={nameError || ''}
-        >
+        <Form.Item label="Nome">
           {getFieldDecorator('name', {
             rules: [{ required: true, message: 'Informe o nome da categoria!' }]
           })(
             <Input
               onChange={onChangeName}
+              maxLength={64}
               placeholder="Nome"
               autoComplete="name"
             />

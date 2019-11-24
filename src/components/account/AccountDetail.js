@@ -5,26 +5,15 @@ import { Form, Input, Modal } from 'antd';
 import PropTypes from 'prop-types';
 
 function AccountDetail(props) {
-  const {
-    getFieldDecorator,
-    getFieldError,
-    getFieldsError,
-    setFieldsValue,
-    isFieldTouched,
-    validateFields
-  } = props.form;
+  const { getFieldDecorator, setFieldsValue, validateFields } = props.form;
 
   const [savingAccount, setSavingAccount] = useState(false);
-
-  const nameError = isFieldTouched('name') && getFieldError('name');
 
   useEffect(() => {
     setFieldsValue({
       name: props.account.nome
     });
-
-    validateFields();
-  }, [props.account.nome]);
+  }, [props.account]);
 
   const onChangeName = event => {
     setFieldsValue({
@@ -47,10 +36,6 @@ function AccountDetail(props) {
     }
   };
 
-  function hasErrors(fieldsError) {
-    return Object.keys(fieldsError).some(field => fieldsError[field]);
-  }
-
   const closeModal = () => {
     props.handleClose();
   };
@@ -60,23 +45,19 @@ function AccountDetail(props) {
       title={(props.account.id ? 'Editar' : 'Cadastrar') + ' conta'}
       visible={props.isVisible}
       okText="Save"
-      okButtonProps={{ disabled: hasErrors(getFieldsError()) }}
       onOk={save}
       onCancel={closeModal}
       confirmLoading={savingAccount}
       destroyOnClose
     >
       <Form hideRequiredMark>
-        <Form.Item
-          label="Nome"
-          validateStatus={nameError ? 'error' : ''}
-          help={nameError || ''}
-        >
+        <Form.Item label="Nome">
           {getFieldDecorator('name', {
             rules: [{ required: true, message: 'Informe o nome da conta!' }]
           })(
             <Input
               onChange={onChangeName}
+              maxLength={64}
               placeholder="Nome"
               autoComplete="name"
             />

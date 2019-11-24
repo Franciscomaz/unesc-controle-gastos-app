@@ -39,11 +39,11 @@ function AppLayout({ children }) {
             </Col>
             <Col>
               <Popconfirm
-                placement="topRight"
-                title="Are you sure you want to logout ?"
+                placement="bottomRight"
+                title="Tem certeza que deseja deslogar?"
                 onConfirm={logout}
-                okText="Yes"
-                cancelText="No"
+                okText="Sim"
+                cancelText="Não"
               >
                 <Icon className="sidebar-icon" type="logout" />
               </Popconfirm>

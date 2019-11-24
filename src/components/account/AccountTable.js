@@ -7,7 +7,8 @@ function AccountTable(props) {
   const columns = [
     {
       title: 'Nome',
-      dataIndex: 'nome'
+      dataIndex: 'nome',
+      sorter: true
     },
     {
       title: 'Ação',
@@ -19,6 +20,8 @@ function AccountTable(props) {
           <Divider type="vertical" />
           <Popconfirm
             title="Tem certeza que deseja deletar?"
+            okText="Sim"
+            cancelText="Não"
             onConfirm={() => props.handleDelete(account.id)}
           >
             <a>Deletar</a>

@@ -18,6 +18,13 @@ function AppMenu() {
         <span>Conta</span>
       </Menu.Item>
       <Menu.Item
+        key={'/transations'}
+        onClick={() => history.push('/transactions')}
+      >
+        <Icon type="transaction" />
+        <span>Transação</span>
+      </Menu.Item>
+      <Menu.Item
         key={'/categories'}
         onClick={() => history.push('/categories')}
       >

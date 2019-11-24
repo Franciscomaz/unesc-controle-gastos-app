@@ -12,6 +12,7 @@ import Dashboard from './dashboard/Dashboard';
 import AppLayout from './layout/AppLayout';
 import AccountPage from './account/AccountPage';
 import CategoryPage from './category/CategoryPage';
+import TransactionPage from './transaction/TransactionPage';
 
 export default function App() {
   return (
@@ -28,6 +29,11 @@ export default function App() {
         <AuthenticatedRoute path="/accounts">
           <AppLayout>
             <AccountPage />
+          </AppLayout>
+        </AuthenticatedRoute>
+        <AuthenticatedRoute path="/transactions">
+          <AppLayout>
+            <TransactionPage />
           </AppLayout>
         </AuthenticatedRoute>
         <AuthenticatedRoute path="/categories">

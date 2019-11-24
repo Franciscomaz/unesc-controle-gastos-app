@@ -2,30 +2,30 @@ import React, { useState, useEffect } from 'react';
 
 import { Row, Col, Input, Button } from 'antd';
 
-import AccountDetail from './AccountDetail';
-import AccountService from './account.service';
-import AccountTable from './AccountTable';
+import TransactionDetail from './TransactionDetail';
+import TransactionService from './transaction.service';
+import TransactionTable from './TransactionTable';
 
 import notificator from '../../core/feedback/notificator';
 
-function AccountPage() {
-  const [account, setAccount] = useState({});
-  const [accounts, setAccounts] = useState([]);
+function TransactionPage() {
+  const [transaction, setTransaction] = useState({});
+  const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
+  const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchAccounts();
+    fetchTransactions();
   }, []);
 
-  const fetchAccounts = async filter => {
+  const fetchTransactions = async filter => {
     setIsLoading(true);
 
     try {
-      const response = await AccountService.findAll({ nome: filter });
-      setAccounts(response.data.content);
+      const response = await TransactionService.findAll({ nome: filter });
+      setTransactions(response.data.content);
     } catch {
-      setAccounts([]);
+      setTransactions([]);
     }
 
     setIsLoading(false);
@@ -34,37 +34,37 @@ function AccountPage() {
   const handleSave = payload => {
     const apiServiceCall = () => {
       return !!payload.id
-        ? AccountService.update(payload.id, payload)
-        : AccountService.save(payload);
+        ? TransactionService.update(payload.contaId, payload.id, payload)
+        : TransactionService.save(payload.contaId, payload);
     };
 
     return apiServiceCall().then(() => {
       notificator.success(
-        `Conta ${payload.id ? 'editada' : 'cadastrada'} com sucesso`
+        `Transação ${payload.id ? 'editada' : 'cadastrada'} com sucesso`
       );
-      fetchAccounts();
+      fetchTransactions();
     });
   };
 
   const handleEdit = data => {
-    setAccount(data);
-    setIsAccountModalOpen(true);
+    setTransaction(data);
+    setIsTransactionModalOpen(true);
   };
 
-  const handleDelete = id => {
-    AccountService.delete(id).then(() => fetchAccounts());
+  const handleDelete = (accountId, id) => {
+    TransactionService.delete(accountId, id).then(() => fetchTransactions());
   };
 
   const handleClose = () => {
-    setAccount({});
-    setIsAccountModalOpen(false);
+    setTransaction({});
+    setIsTransactionModalOpen(false);
   };
 
   return (
     <div className="p-2">
-      <AccountDetail
-        account={account}
-        isVisible={isAccountModalOpen}
+      <TransactionDetail
+        transaction={transaction}
+        isVisible={isTransactionModalOpen}
         handleSave={handleSave}
         handleClose={handleClose}
       />
@@ -74,9 +74,9 @@ function AccountPage() {
           <Button
             type="primary"
             icon="plus"
-            onClick={() => setIsAccountModalOpen(true)}
+            onClick={() => setIsTransactionModalOpen(true)}
           >
-            Account
+            Transação
           </Button>
         </Col>
         <Col>
@@ -85,29 +85,29 @@ function AccountPage() {
               <Button
                 shape="circle"
                 icon="reload"
-                onClick={() => fetchAccounts()}
+                onClick={() => fetchTransactions()}
                 disabled={isLoading}
               />
             </Col>
             <Col>
               <Input.Search
                 placeholder="search"
-                onSearch={value => fetchAccounts(value)}
+                onSearch={value => fetchTransactions(value)}
               />
             </Col>
           </Row>
         </Col>
       </Row>
       <div className="has-white" style={{ padding: 10 }}>
-        <AccountTable
-          accounts={accounts}
+        <TransactionTable
+          transactions={transactions}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
           loading={isLoading}
-        ></AccountTable>
+        ></TransactionTable>
       </div>
     </div>
   );
 }
 
-export default AccountPage;
+export default TransactionPage;

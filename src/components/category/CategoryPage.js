@@ -23,7 +23,7 @@ function CategoryPage() {
 
     try {
       const response = await CategoryService.findAll({ nome: filter });
-      setCategories(response.data);
+      setCategories(response.data.content);
     } catch {
       setCategories([]);
     }
@@ -98,7 +98,7 @@ function CategoryPage() {
           </Row>
         </Col>
       </Row>
-      <div className="has-white" style={{ minHeight: 280, padding: 25 }}>
+      <div className="has-white" style={{ padding: 10 }}>
         <CategoryTable
           categories={categories}
           handleEdit={handleEdit}
