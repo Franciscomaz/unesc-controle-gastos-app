@@ -87,7 +87,7 @@ function AccountPage() {
             icon="plus"
             onClick={() => setIsAccountModalOpen(true)}
           >
-            Account
+            Conta
           </Button>
         </Col>
         <Col>

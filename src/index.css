@@ -25,6 +25,14 @@ body {
   padding: 24px;
 }
 
+.mt-1 {
+  margin-top: 12px;
+}
+
+.mt-2 {
+  margin-top: 24px;
+}
+
 .mb-1 {
   margin-bottom: 12px;
 }
