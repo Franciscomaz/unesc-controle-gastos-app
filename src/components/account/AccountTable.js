@@ -33,9 +33,11 @@ function AccountTable(props) {
 
   return (
     <Table
+      columns={columns}
       rowKey={record => record.id}
       dataSource={props.accounts}
-      columns={columns}
+      pagination={props.pagination}
+      onChange={props.handleChange}
       loading={props.loading}
       bordered
     />
@@ -44,6 +46,8 @@ function AccountTable(props) {
 
 AccountTable.propTypes = {
   accounts: PropTypes.array,
+  pagination: PropTypes.object,
+  handleChange: PropTypes.func,
   handleEdit: PropTypes.func,
   handleDelete: PropTypes.func,
   loading: PropTypes.bool

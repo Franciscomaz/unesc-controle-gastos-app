@@ -1,5 +1,4 @@
-/* eslint-disable react/display-name */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Select, Spin } from 'antd';
 
 import AccountService from './account.service';
@@ -64,6 +63,11 @@ AccountSelect.propTypes = {
   disabled: PropTypes.bool
 };
 
-export default React.forwardRef((props, ref) => (
-  <AccountSelect forwardedRef={ref} {...props}></AccountSelect>
-));
+export default React.forwardRef(
+  Object.assign(
+    (props, ref) => (
+      <AccountSelect forwardedRef={ref} {...props}></AccountSelect>
+    ),
+    { displayName: 'AccountSelect' }
+  )
+);

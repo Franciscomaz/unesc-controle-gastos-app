@@ -11,24 +11,35 @@ import notificator from '../../core/feedback/notificator';
 function CategoryPage() {
   const [category, setCategory] = useState({});
   const [categories, setCategories] = useState([]);
+  const [pagination, setPagination] = useState({ perPage: 10 });
   const [isLoading, setIsLoading] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
   useEffect(() => {
-    loadCategories();
+    fetchCategories({ limit: pagination.perPage });
   }, []);
 
-  const loadCategories = async filter => {
+  const fetchCategories = async queryParams => {
     setIsLoading(true);
 
     try {
-      const response = await CategoryService.findAll({ nome: filter });
+      const response = await CategoryService.findAll(queryParams);
+      setPagination({ total: response.data.total });
       setCategories(response.data.content);
     } catch {
       setCategories([]);
     }
 
     setIsLoading(false);
+  };
+
+  const handleTableChange = (pagination, filters, sorter) => {
+    fetchCategories({
+      offset: (pagination.current - 1) * pagination.pageSize,
+      limit: pagination.pageSize,
+      sortField: sorter.field,
+      sortOrder: sorter.order
+    });
   };
 
   const handleSave = payload => {
@@ -42,7 +53,7 @@ function CategoryPage() {
       notificator.success(
         `Categoria ${payload.id ? 'editada' : 'cadastrada'} com sucesso`
       );
-      loadCategories();
+      fetchCategories();
     });
   };
 
@@ -52,7 +63,7 @@ function CategoryPage() {
   };
 
   const handleDelete = id => {
-    CategoryService.delete(id).then(() => loadCategories());
+    CategoryService.delete(id).then(() => fetchCategories());
   };
 
   const handleClose = () => {
@@ -85,14 +96,14 @@ function CategoryPage() {
               <Button
                 shape="circle"
                 icon="reload"
-                onClick={() => loadCategories()}
+                onClick={() => fetchCategories()}
                 disabled={isLoading}
               />
             </Col>
             <Col>
               <Input.Search
                 placeholder="search"
-                onSearch={value => loadCategories(value)}
+                onSearch={value => fetchCategories({ nome: value })}
               />
             </Col>
           </Row>
@@ -101,6 +112,8 @@ function CategoryPage() {
       <div className="has-white" style={{ padding: 10 }}>
         <CategoryTable
           categories={categories}
+          pagination={pagination}
+          handleChange={handleTableChange}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
           loading={isLoading}

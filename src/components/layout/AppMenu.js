@@ -18,7 +18,7 @@ function AppMenu() {
         <span>Conta</span>
       </Menu.Item>
       <Menu.Item
-        key={'/transations'}
+        key={'/transactions'}
         onClick={() => history.push('/transactions')}
       >
         <Icon type="transaction" />

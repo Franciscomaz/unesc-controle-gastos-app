@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import React, { useState } from 'react';
 import { Select, Spin } from 'antd';
 
@@ -62,6 +61,11 @@ CategorySelect.propTypes = {
   forwardedRef: PropTypes.func
 };
 
-export default React.forwardRef((props, ref) => (
-  <CategorySelect forwardedRef={ref} {...props}></CategorySelect>
-));
+export default React.forwardRef(
+  Object.assign(
+    (props, ref) => (
+      <CategorySelect forwardedRef={ref} {...props}></CategorySelect>
+    ),
+    { displayName: 'CategorySelect' }
+  )
+);

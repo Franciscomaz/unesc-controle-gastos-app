@@ -33,9 +33,11 @@ function CategoryTable(props) {
 
   return (
     <Table
+      columns={columns}
       rowKey={record => record.id}
       dataSource={props.categories}
-      columns={columns}
+      pagination={props.pagination}
+      onChange={props.handleChange}
       loading={props.loading}
       bordered
     />
@@ -44,6 +46,8 @@ function CategoryTable(props) {
 
 CategoryTable.propTypes = {
   categories: PropTypes.array,
+  pagination: PropTypes.object,
+  handleChange: PropTypes.func,
   handleEdit: PropTypes.func,
   handleDelete: PropTypes.func,
   loading: PropTypes.bool

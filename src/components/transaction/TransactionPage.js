@@ -11,24 +11,35 @@ import notificator from '../../core/feedback/notificator';
 function TransactionPage() {
   const [transaction, setTransaction] = useState({});
   const [transactions, setTransactions] = useState([]);
+  const [pagination, setPagination] = useState({ perPage: 10 });
   const [isLoading, setIsLoading] = useState(false);
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchTransactions();
+    fetchTransactions({ limit: pagination.perPage });
   }, []);
 
-  const fetchTransactions = async filter => {
+  const fetchTransactions = async queryParams => {
     setIsLoading(true);
 
     try {
-      const response = await TransactionService.findAll({ nome: filter });
+      const response = await TransactionService.findAll(queryParams);
+      setPagination({ total: response.data.total });
       setTransactions(response.data.content);
     } catch {
       setTransactions([]);
     }
 
     setIsLoading(false);
+  };
+
+  const handleTableChange = (pagination, filters, sorter) => {
+    fetchTransactions({
+      offset: (pagination.current - 1) * pagination.pageSize,
+      limit: pagination.pageSize,
+      sortField: sorter.field,
+      sortOrder: sorter.order
+    });
   };
 
   const handleSave = payload => {
@@ -92,7 +103,7 @@ function TransactionPage() {
             <Col>
               <Input.Search
                 placeholder="search"
-                onSearch={value => fetchTransactions(value)}
+                onSearch={value => fetchTransactions({ nome: value })}
               />
             </Col>
           </Row>
@@ -101,6 +112,7 @@ function TransactionPage() {
       <div className="has-white" style={{ padding: 10 }}>
         <TransactionTable
           transactions={transactions}
+          handleChange={handleTableChange}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
           loading={isLoading}

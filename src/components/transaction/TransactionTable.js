@@ -1,9 +1,9 @@
 /* eslint-disable react/display-name */
-import { TRANSACTION_TYPES } from './transaction-constants';
-
 import React from 'react';
 import { Table, Divider, Popconfirm } from 'antd';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import TransactionValue from './TransactionValue';
 
 function TransactionTable(props) {
   const columns = [
@@ -15,32 +15,35 @@ function TransactionTable(props) {
     {
       title: 'Conta',
       dataIndex: 'conta.nome',
-      width: '150px'
+      width: '150px',
+      sorter: true
     },
     {
       title: 'Categoria',
       dataIndex: 'categoria.nome',
-      width: '150px'
+      width: '150px',
+      sorter: true
     },
     {
       title: 'Valor',
       dataIndex: 'valor',
       align: 'right',
       width: '150px',
+      sorter: true,
       render: (text, transaction) => (
-        <span
-          style={{
-            color:
-              transaction.tipo === TRANSACTION_TYPES.GANHO ? 'green' : 'red'
-          }}
-        >
-          {text.toLocaleString('pt-BR', {
-            minimumFractionDigits: 2,
-            style: 'currency',
-            currency: 'BRL'
-          })}
-        </span>
+        <TransactionValue
+          key={transaction.id}
+          value={text}
+          type={transaction.tipo}
+        />
       )
+    },
+    {
+      title: 'Data e hora',
+      dataIndex: 'createdAt',
+      width: '170px',
+      sorter: true,
+      render: text => <span>{moment(text).format('D/M/Y [ás] k:mm[h]')}</span>
     },
     {
       title: 'Ação',
@@ -67,11 +70,12 @@ function TransactionTable(props) {
 
   return (
     <Table
+      columns={columns}
       rowKey={record => record.id}
       dataSource={props.transactions}
-      columns={columns}
+      pagination={props.pagination}
+      onChange={props.handleChange}
       loading={props.loading}
-      onChange={props.handleTableChange}
       bordered
     />
   );
@@ -79,6 +83,8 @@ function TransactionTable(props) {
 
 TransactionTable.propTypes = {
   transactions: PropTypes.array,
+  pagination: PropTypes.object,
+  handleChange: PropTypes.func,
   handleEdit: PropTypes.func,
   handleDelete: PropTypes.func,
   handleTableChange: PropTypes.func,

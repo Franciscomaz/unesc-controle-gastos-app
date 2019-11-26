@@ -11,24 +11,35 @@ import notificator from '../../core/feedback/notificator';
 function AccountPage() {
   const [account, setAccount] = useState({});
   const [accounts, setAccounts] = useState([]);
+  const [pagination, setPagination] = useState({ perPage: 10 });
   const [isLoading, setIsLoading] = useState(false);
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchAccounts();
+    fetchAccounts({ limit: pagination.perPage });
   }, []);
 
-  const fetchAccounts = async filter => {
+  const fetchAccounts = async queryParams => {
     setIsLoading(true);
 
     try {
-      const response = await AccountService.findAll({ nome: filter });
+      const response = await AccountService.findAll(queryParams);
+      setPagination({ total: response.data.total });
       setAccounts(response.data.content);
     } catch {
       setAccounts([]);
     }
 
     setIsLoading(false);
+  };
+
+  const handleTableChange = (pagination, filters, sorter) => {
+    fetchAccounts({
+      offset: (pagination.current - 1) * pagination.pageSize,
+      limit: pagination.pageSize,
+      sortField: sorter.field,
+      sortOrder: sorter.order
+    });
   };
 
   const handleSave = payload => {
@@ -92,7 +103,7 @@ function AccountPage() {
             <Col>
               <Input.Search
                 placeholder="search"
-                onSearch={value => fetchAccounts(value)}
+                onSearch={value => fetchAccounts({ nome: value })}
               />
             </Col>
           </Row>
@@ -101,6 +112,8 @@ function AccountPage() {
       <div className="has-white" style={{ padding: 10 }}>
         <AccountTable
           accounts={accounts}
+          pagination={pagination}
+          handleChange={handleTableChange}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
           loading={isLoading}
