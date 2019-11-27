@@ -51,9 +51,7 @@ function TransactionTable(props) {
       width: '135px',
       render: (text, transaction) => (
         <span>
-          <a href="" onClick={() => props.handleEdit(transaction)}>
-            Editar
-          </a>
+          <a onClick={() => props.handleEdit(transaction)}>Editar</a>
           <Divider type="vertical" />
           <Popconfirm
             title="Tem certeza que deseja deletar?"
@@ -63,7 +61,7 @@ function TransactionTable(props) {
               props.handleDelete(transaction.conta.id, transaction.id)
             }
           >
-            <a href="">Deletar</a>
+            <a>Deletar</a>
           </Popconfirm>
         </span>
       )

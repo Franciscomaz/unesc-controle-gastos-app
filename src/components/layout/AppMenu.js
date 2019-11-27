@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 
 import { Menu, Icon } from 'antd';
@@ -30,6 +30,10 @@ function AppMenu() {
       >
         <Icon type="tags" />
         <span>Categoria</span>
+      </Menu.Item>
+      <Menu.Item key={'/budgets'} onClick={() => history.push('/budgets')}>
+        <Icon type="wallet" />
+        <span>Orçamento</span>
       </Menu.Item>
     </Menu>
   );

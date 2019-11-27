@@ -16,9 +16,7 @@ function CategoryTable(props) {
       width: '135px',
       render: (text, category) => (
         <span>
-          <a href="" onClick={() => props.handleEdit(category)}>
-            Editar
-          </a>
+          <a onClick={() => props.handleEdit(category)}>Editar</a>
           <Divider type="vertical" />
           <Popconfirm
             title="Tem certeza que deseja deletar?"
@@ -26,7 +24,7 @@ function CategoryTable(props) {
             cancelText="Não"
             onConfirm={() => props.handleDelete(category.id)}
           >
-            <a href="">Deletar</a>
+            <a>Deletar</a>
           </Popconfirm>
         </span>
       )

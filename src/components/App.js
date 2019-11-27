@@ -13,6 +13,7 @@ import AppLayout from './layout/AppLayout';
 import AccountPage from './account/AccountPage';
 import CategoryPage from './category/CategoryPage';
 import TransactionPage from './transaction/TransactionPage';
+import BudgetPage from './budget/BudgetPage';
 
 export default function App() {
   return (
@@ -39,6 +40,11 @@ export default function App() {
         <AuthenticatedRoute path="/categories">
           <AppLayout>
             <CategoryPage />
+          </AppLayout>
+        </AuthenticatedRoute>
+        <AuthenticatedRoute path="/budgets">
+          <AppLayout>
+            <BudgetPage />
           </AppLayout>
         </AuthenticatedRoute>
       </Switch>
