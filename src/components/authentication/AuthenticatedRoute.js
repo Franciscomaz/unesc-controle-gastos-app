@@ -14,18 +14,18 @@ function AuthenticatedRoute({ children, ...props }) {
   const location = useLocation();
 
   useEffect(() => {
+    const verifyPermission = async () => {
+      const hasPermission = await isUserLoggedIn();
+
+      if (!hasPermission) {
+        notifyNoPermission();
+      }
+
+      setHasPermission(hasPermission);
+    };
+
     verifyPermission();
   }, [location.pathname]);
-
-  const verifyPermission = async () => {
-    const hasPermission = await isUserLoggedIn();
-
-    if (!hasPermission) {
-      notifyNoPermission();
-    }
-
-    setHasPermission(hasPermission);
-  };
 
   const isUserLoggedIn = async () => {
     const token = getToken();

@@ -13,7 +13,7 @@ function CategoryDetail(props) {
     setFieldsValue({
       name: props.category.nome
     });
-  }, [props.category]);
+  }, [setFieldsValue, props.category]);
 
   const onChangeName = event => {
     setFieldsValue({

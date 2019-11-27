@@ -16,7 +16,7 @@ function CategoryPage() {
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchCategories({ limit: pagination.perPage });
+    fetchCategories({ limit: 10 });
   }, []);
 
   const fetchCategories = async queryParams => {

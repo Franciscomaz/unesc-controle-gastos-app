@@ -16,7 +16,7 @@ function TransactionPage() {
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchTransactions({ limit: pagination.perPage });
+    fetchTransactions({ limit: 10 });
   }, []);
 
   const fetchTransactions = async queryParams => {
@@ -111,6 +111,7 @@ function TransactionPage() {
       </Row>
       <div className="has-white" style={{ padding: 10 }}>
         <TransactionTable
+          pagination={pagination}
           transactions={transactions}
           handleChange={handleTableChange}
           handleEdit={handleEdit}

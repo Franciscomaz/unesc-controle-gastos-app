@@ -26,7 +26,7 @@ function UserLogin(props) {
     setFieldsValue({
       username: localStorage.getItem(LAST_LOGGED_USER_STORAGE_KEY)
     });
-  }, []);
+  }, [setFieldsValue]);
 
   useEffect(() => {
     const token = getToken();
@@ -110,12 +110,7 @@ function UserLogin(props) {
               valuePropName: 'checked',
               initialValue: true
             })(<Checkbox>Remember me</Checkbox>)}
-            <Button
-              className="w-100"
-              type="primary"
-              htmlType="submit"
-              onClick={onSubmit}
-            >
+            <Button type="primary" htmlType="submit" onClick={onSubmit} block>
               Sign in
             </Button>
             Or <Link to="/register">register now!</Link>

@@ -143,12 +143,7 @@ function UserRegistration(props) {
             )}
           </Form.Item>
           <Form.Item>
-            <Button
-              className="w-100"
-              type="primary"
-              htmlType="submit"
-              onClick={onSignIn}
-            >
+            <Button type="primary" htmlType="submit" onClick={onSignIn} block>
               Sign up
             </Button>
             Or <Link to="/login">log in!</Link>

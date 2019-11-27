@@ -16,7 +16,9 @@ function AccountTable(props) {
       width: '135px',
       render: (text, account) => (
         <span>
-          <a onClick={() => props.handleEdit(account)}>Editar</a>
+          <a href="" onClick={() => props.handleEdit(account)}>
+            Editar
+          </a>
           <Divider type="vertical" />
           <Popconfirm
             title="Tem certeza que deseja deletar?"
@@ -24,7 +26,7 @@ function AccountTable(props) {
             cancelText="Não"
             onConfirm={() => props.handleDelete(account.id)}
           >
-            <a>Deletar</a>
+            <a href="">Deletar</a>
           </Popconfirm>
         </span>
       )

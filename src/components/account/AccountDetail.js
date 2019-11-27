@@ -13,7 +13,7 @@ function AccountDetail(props) {
     setFieldsValue({
       name: props.account.nome
     });
-  }, [props.account]);
+  }, [setFieldsValue, props.account]);
 
   const onChangeName = event => {
     setFieldsValue({

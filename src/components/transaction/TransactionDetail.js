@@ -22,7 +22,7 @@ function TransactionDetail(props) {
         ? props.transaction.categoria.id
         : null
     });
-  }, [props.transaction]);
+  }, [setFieldsValue, props.transaction]);
 
   const onChangeName = event => {
     setFieldsValue({

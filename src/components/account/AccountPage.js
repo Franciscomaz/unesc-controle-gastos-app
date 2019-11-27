@@ -16,7 +16,7 @@ function AccountPage() {
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchAccounts({ limit: pagination.perPage });
+    fetchAccounts({ limit: 10 });
   }, []);
 
   const fetchAccounts = async queryParams => {
@@ -34,6 +34,8 @@ function AccountPage() {
   };
 
   const handleTableChange = (pagination, filters, sorter) => {
+    console.log(sorter);
+
     fetchAccounts({
       offset: (pagination.current - 1) * pagination.pageSize,
       limit: pagination.pageSize,
